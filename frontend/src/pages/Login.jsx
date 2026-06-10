@@ -1,6 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import React from "react";
+import axios from "axios";
+import { toast } from "sonner";
 
 const Login = () => {
   const [user, setUser] = useState({
@@ -13,22 +15,38 @@ const Login = () => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
-  const loginHandler = async () => {};
+  const loginHandler = async () => {
+    try {
+         const res= await axios.post("http://localhost:8000/api/v1/user/login",user,{
+            headers:{"Content-Type": "application/json"},
+            withCredentials: true,
+
+         })
+         console.log(res);
+         if(res.success){
+            toast.success(res.data.message)
+         }
+    } catch (error) {
+          
+    }
+  };
   return (
     <div>
       <Input
         value={user.email}
+        name='email'
         onChange={changeHandler}
         type="text"
         placeholder="Email"
       />
       <Input
         value={user.password}
+        name='password'
         onChange={changeHandler}
-        type="text"
+        type="password"
         placeholder="Pasword"
       />
-      <Button>LogIn</Button>
+      <Button onClick={loginHandler}>LogIn</Button>
     </div>
   );
 };
