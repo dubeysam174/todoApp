@@ -5,6 +5,7 @@ import userRouter from './routes/user.route.js'
 import todoRouter from './routes/todo.route.js'
 import bodyParser
  from 'body-parser';
+ import cors from 'cors'
 
 
 // importing this so we can use credentials throughout express app without exposing them...
@@ -23,6 +24,10 @@ connectDB()
 // importing express inbuilt middlewares to fetch data...
 app.use(express.json())
 app.use(bodyParser.urlencoded({extended:true}));
+app.use(cors({
+    origin:"http://localhost:5173",
+    credentials:true,
+}))
 
 
 
