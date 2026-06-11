@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import React from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { toast } from "sonner";
 
@@ -11,7 +11,7 @@ const Login = () => {
   });
 
   // adding login handler here we are connecting with backend..
-  const changeHandler = () => {
+  const changeHandler = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
