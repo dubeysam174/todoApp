@@ -23,12 +23,12 @@ const Login = () => {
 
          })
          console.log(res);
-         if(res.success){
+         if(res.data.success){
             toast.success(res.data.message)
          }
     } catch (error) {
-          
-    }
+  toast.error(error.response?.data?.message);
+}
   };
   return (
     <div>
