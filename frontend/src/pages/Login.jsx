@@ -3,8 +3,10 @@ import { Input } from "@/components/ui/input";
 import React, { useState } from "react";
 import axios from "axios";
 import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const navigate = useNavigate
   const [user, setUser] = useState({
     email: "",
     password: "",
@@ -25,6 +27,7 @@ const Login = () => {
          console.log(res);
          if(res.data.success){
             toast.success(res.data.message)
+            navigate("/")
          }
     } catch (error) {
   toast.error(error.response?.data?.message);

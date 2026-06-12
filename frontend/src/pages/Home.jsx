@@ -1,35 +1,33 @@
-import axios from "axios";
-import React, { useState } from "react";
-import { toast } from "sonner";
-import Navbar from "./Navbar";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
+import axios from 'axios'
+import React, { useState } from 'react'
+import { toast } from 'sonner'
+import Navbar from './Navbar'
+import { Input } from '@/components/ui/input'
+import { Textarea } from '@/components/ui/textarea'
+import { Button } from '@/components/ui/button'
 
 const Home = () => {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
 
-  // adding handler means function for  adding todo
-  const addTodoHandler = async () => {
-    try {
-      const res = await axios.post(
-        "http://localhost:8000/api/v1/todo",
-        { title, description },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
+    const [title,setTitle]= useState("")
+    const [description,setDescription]= useState("")
+    
+
+    // adding handler means function for  adding todo
+    const addTodoHandler= async()=>{
+
+    
+      try {
+         const res= await axios.post("http://localhost:8000/api/v1/todo",{title},{headers:{
+          'Content-Type': 'application/json'},
           withCredentials: true,
-        },
-      );
-      if (res.data.success) {
-        toast.success(res.data.message);
-      }
+        })
+        if(res.success){
+           toast.success(res.data.message);
+        }
     } catch (error) {
-  toast.error(error.response?.data?.message);
-}
-  };
+       toast.error(error.res.data.message) 
+    }
+   }
   return (
     <div className="min-h-screen bg-slate-900">
       <Navbar />
@@ -51,8 +49,17 @@ const Home = () => {
             className="w-full min-h-32"
           />
 
-          <Button className="w-full">Add Todo</Button>
+          <Button className="w-full">
+            Add Todo
+          </Button>
         </div>
+
+        {todos.map((todo) => (
+          <Card key={todo._id}>
+            <h3 className="text-white text-lg font-semibold">{todo.title}</h3>
+            <p className="text-slate-300">{todo.description}</p>
+          </Card>
+        ))}
       </div>
     </div>
   );
