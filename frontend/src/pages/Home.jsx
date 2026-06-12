@@ -52,7 +52,7 @@ const Home = () => {
 
       if (res.data.success) {
         toast.success(res.data.message);
-
+         setTodos([...todos,res.data.todo])
         setTitle("");
         setDescription("");
 
