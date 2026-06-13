@@ -20,7 +20,7 @@ services:
     env_file:
       - ./backend/.env
     volumes:
-      - ./server:/app
+      - ./backend:/app
       - /app/node_modules
     networks:
       - mernapp
