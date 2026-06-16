@@ -6,6 +6,9 @@ import todoRouter from './routes/todo.route.js'
 import bodyParser
  from 'body-parser';
  import cors from 'cors'
+ import {Redis} from 'ioredis'
+ import axios from 'axios'
+
 
 
 // importing this so we can use credentials throughout express app without exposing them...
@@ -17,6 +20,7 @@ dotenv.config()
 
 // making the instance so we can use express...
 const app=express();
+const redisClient = new Redis()
 const port= process.env.PORT || 3000
 
 // calling connecting with mongodb for further process
@@ -29,6 +33,24 @@ app.use(cors({
     credentials:true,
 }))
 
+// making this for redis..
+app.get('/posts',async(req,res)=>{
+      try {
+        const cachedData = await redisClient.get('posts');
+        if(cachedData!=null){
+            return res.json(JSON.parse(cachedData));
+
+        }else{
+            console.log('not cached data')
+          const {data}=  await axios("https://jsonplaceholder.typicode.com/posts")
+           await redisClient.setex("posts",JSON.stringify(data));
+
+           return res.json(data)
+        }
+      } catch (error) {
+         console.log(error);
+      }
+})
 
 
 // making routes here....
